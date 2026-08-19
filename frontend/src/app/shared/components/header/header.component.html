@@ -1,0 +1,40 @@
+<header class="header">
+  <a class="header__brand" routerLink="/dashboard">
+    <span class="header__logo" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round">
+        <path d="M19 7V4a1 1 0 0 0-1-1H5a2 2 0 0 0 0 4h15a1 1 0 0 1 1 1v4h-3a2 2 0 0 0 0 4h3a1 1 0 0 0 1-1v-2a1 1 0 0 0-1-1" />
+        <path d="M3 5v14a2 2 0 0 0 2 2h15a1 1 0 0 0 1-1v-4" />
+      </svg>
+    </span>
+    <span class="header__brand-text">Control de Gastos</span>
+  </a>
+
+  @if (isLoggedIn) {
+    <nav class="header__nav">
+      <a
+        routerLink="/dashboard"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        Dashboard
+      </a>
+      <a routerLink="/transactions" routerLinkActive="active">
+        Transacciones
+      </a>
+      <a routerLink="/categories" routerLinkActive="active">
+        Categorías
+      </a>
+    </nav>
+  }
+
+  <button class="header__logout" type="button" (click)="onLogout()">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+      <path d="m16 17 5-5-5-5" />
+      <path d="M21 12H9" />
+    </svg>
+    <span>Cerrar sesión</span>
+  </button>
+</header>
