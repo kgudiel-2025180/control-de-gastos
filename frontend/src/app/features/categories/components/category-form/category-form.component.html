@@ -1,0 +1,76 @@
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form__field">
+    <label for="name">Nombre</label>
+    <input
+      id="name"
+      type="text"
+      formControlName="name"
+      placeholder="Ej. Comida, Transporte…"
+    />
+    @if (form.controls.name.touched && form.controls.name.invalid) {
+      <span class="form__error">El nombre es obligatorio.</span>
+    }
+  </div>
+
+  <div class="form__field">
+    <label>Ícono</label>
+    <div class="picker picker--icons">
+      @for (icon of icons; track icon) {
+        <button
+          type="button"
+          class="picker__option"
+          [class.picker__option--selected]="form.controls.icon.value === icon"
+          [attr.aria-label]="'Ícono ' + icon"
+          (click)="form.controls.icon.setValue(icon)"
+        >
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+               stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            @for (d of iconPaths(icon); track d) {
+              <path [attr.d]="d" />
+            }
+          </svg>
+        </button>
+      }
+    </div>
+  </div>
+
+  <div class="form__field">
+    <label>Color</label>
+    <div class="picker picker--colors">
+      @for (color of colors; track color) {
+        <button
+          type="button"
+          class="color-option"
+          [class.color-option--selected]="form.controls.color.value === color"
+          [style.background]="color"
+          [attr.aria-label]="'Color ' + color"
+          (click)="form.controls.color.setValue(color)"
+        ></button>
+      }
+    </div>
+  </div>
+
+  <div class="form__field">
+    <label for="budgetLimit">Límite de presupuesto mensual</label>
+    <input
+      id="budgetLimit"
+      type="number"
+      min="0"
+      step="0.01"
+      formControlName="budgetLimit"
+    />
+    <p class="form__hint">Usa 0 si esta categoría no tiene presupuesto.</p>
+    @if (form.controls.budgetLimit.touched && form.controls.budgetLimit.invalid) {
+      <span class="form__error">El límite no puede ser negativo.</span>
+    }
+  </div>
+
+  <div class="form__actions">
+    <button type="button" class="btn btn--ghost" (click)="cancelled.emit()">
+      Cancelar
+    </button>
+    <button type="submit" class="btn btn--primary">
+      {{ category() ? 'Guardar cambios' : 'Crear categoría' }}
+    </button>
+  </div>
+</form>

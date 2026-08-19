@@ -1,0 +1,64 @@
+<div class="category-card">
+  <div class="category-card__top">
+    <span
+      class="category-card__icon"
+      [style.background]="category().color + '22'"
+      [style.color]="category().color"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        @for (d of iconPaths(category().icon); track d) {
+          <path [attr.d]="d" />
+        }
+      </svg>
+    </span>
+    <div class="category-card__info">
+      <h3>{{ category().name }}</h3>
+      <p>
+        @if (category().budgetLimit > 0) {
+          Límite {{ category().budgetLimit | currencyFormat }}
+        } @else {
+          Sin presupuesto
+        }
+      </p>
+    </div>
+    <div class="category-card__actions">
+      <button class="icon-btn" title="Editar" (click)="edit.emit(category())">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+        </svg>
+      </button>
+      <button class="icon-btn icon-btn--danger" title="Eliminar" (click)="delete.emit(category())">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+             stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M3 6h18" />
+          <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+          <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+          <path d="M10 11v6" />
+          <path d="M14 11v6" />
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  @if (category().budgetLimit > 0) {
+    <div class="category-card__progress">
+      <div class="progress-bar">
+        <div
+          class="progress-bar__fill"
+          [class.progress-bar__fill--over]="overBudget()"
+          [style.width.%]="percent()"
+          [style.background]="category().color"
+        ></div>
+      </div>
+      <div class="category-card__spent">
+        <span [class.category-card__spent--over]="overBudget()">
+          {{ spent() | currencyFormat }}
+        </span>
+        de {{ category().budgetLimit | currencyFormat }}
+        ({{ percent() }}%)
+      </div>
+    </div>
+  }
+</div>

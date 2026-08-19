@@ -1,0 +1,54 @@
+<section class="page">
+  <div class="page__header">
+    <div>
+      <h1>Categorías y presupuestos</h1>
+      <p class="page__subtitle">
+        Define límites de gasto por categoría y controla tu presupuesto
+      </p>
+    </div>
+    <button class="btn btn--primary" (click)="onOpenCreate()">
+      + Nueva categoría
+    </button>
+  </div>
+
+  @if (categories().length === 0) {
+    <div class="page__empty card">
+      <p>Aún no hay categorías. Crea la primera para empezar a organizar tus gastos.</p>
+    </div>
+  } @else {
+    <div class="categories-grid">
+      @for (category of categories(); track category.id) {
+        <app-category-card
+          [category]="category"
+          [spent]="spentByCategory().get(category.id) ?? 0"
+          (edit)="onOpenEdit($event)"
+          (delete)="onAskDelete($event)"
+        />
+      }
+    </div>
+  }
+
+  <app-modal
+    [open]="formOpen()"
+    [title]="editingId() ? 'Editar categoría' : 'Nueva categoría'"
+    (close)="onCloseForm()"
+  >
+    @if (formOpen()) {
+      <app-category-form
+        [category]="editingCategory()"
+        (submitted)="onSubmitted($event)"
+        (cancelled)="onCloseForm()"
+      />
+    }
+  </app-modal>
+
+  <app-confirm-dialog
+    [open]="pendingDelete() !== null"
+    title="Eliminar categoría"
+    [message]="'¿Seguro que quieres eliminar esta categoría? Las transacciones asociadas se quedarán sin categoría.'"
+    confirmLabel="Eliminar"
+    cancelLabel="Cancelar"
+    (confirmed)="onDeleteConfirmed()"
+    (cancelled)="onDeleteCancelled()"
+  />
+</section>
