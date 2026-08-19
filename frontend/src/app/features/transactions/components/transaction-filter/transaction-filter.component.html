@@ -1,0 +1,38 @@
+<form class="filter" [formGroup]="form">
+  <div class="filter__field">
+    <label for="type">Tipo</label>
+    <select id="type" formControlName="type">
+      <option value="ALL">Todos</option>
+      <option value="EXPENSE">Gastos</option>
+      <option value="INCOME">Ingresos</option>
+    </select>
+  </div>
+
+  <div class="filter__field">
+    <label for="categoryId">Categoría</label>
+    <select id="categoryId" formControlName="categoryId">
+      <option value="">Todas</option>
+      @for (category of categories(); track category.id) {
+        <option [value]="category.id">
+          {{ category.name }}
+        </option>
+      }
+    </select>
+  </div>
+
+  <div class="filter__field">
+    <label for="from">Desde</label>
+    <input id="from" type="date" formControlName="from" />
+  </div>
+
+  <div class="filter__field">
+    <label for="to">Hasta</label>
+    <input id="to" type="date" formControlName="to" />
+  </div>
+
+  <div class="filter__field filter__field--action">
+    <button type="button" class="btn btn--ghost" (click)="onClear()">
+      Limpiar
+    </button>
+  </div>
+</form>

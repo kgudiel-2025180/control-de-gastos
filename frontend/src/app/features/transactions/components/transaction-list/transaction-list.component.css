@@ -1,0 +1,131 @@
+.list {
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow-x: auto;
+  backdrop-filter: blur(14px);
+}
+
+.list__table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.list__table th {
+  text-align: left;
+  padding: 0.75rem 1rem;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--color-text-muted);
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.list__table td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.list__table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.list__table tbody tr {
+  transition: background-color 0.15s var(--ease);
+}
+
+.list__table tbody tr:hover {
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.list__date {
+  font-weight: 600;
+}
+
+.list__ago {
+  font-size: 0.78rem;
+  color: var(--color-text-muted);
+}
+
+.list__description {
+  color: var(--color-text-muted);
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.07);
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.badge__icon {
+  width: 13px;
+  height: 13px;
+  color: var(--color-text-faint);
+}
+
+.type-badge {
+  padding: 0.2rem 0.55rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.type-badge--expense {
+  background: rgba(248, 113, 113, 0.16);
+  color: var(--color-danger);
+}
+
+.type-badge--income {
+  background: rgba(52, 211, 153, 0.16);
+  color: var(--color-success);
+}
+
+.list__amount {
+  font-weight: 700;
+  text-align: right;
+  white-space: nowrap;
+}
+
+.list__amount--expense {
+  color: var(--color-danger);
+}
+
+.list__amount--income {
+  color: var(--color-success);
+}
+
+.list__col-amount {
+  text-align: right;
+}
+
+.list__actions {
+  text-align: right;
+  white-space: nowrap;
+}
+
+.list__col-actions {
+  width: 90px;
+}
+
+.icon-btn--danger:hover {
+  color: var(--color-danger);
+  background: rgba(248, 113, 113, 0.12);
+}
+
+.list__empty {
+  padding: 3rem 1rem;
+  text-align: center;
+  color: var(--color-text-muted);
+}
+
+.list__empty-hint {
+  font-size: 0.85rem;
+}
