@@ -1,0 +1,87 @@
+<form class="form" [formGroup]="form" (ngSubmit)="onSubmit()">
+  <div class="form__row form__row--type">
+    <button
+      type="button"
+      class="type-btn"
+      [class.type-btn--expense]="type() === 'EXPENSE'"
+      (click)="setType('EXPENSE')"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 17 13.5 8.5 8.5 13.5 2 7" />
+        <path d="M16 17h6v-6" />
+      </svg>
+      Gasto
+    </button>
+    <button
+      type="button"
+      class="type-btn"
+      [class.type-btn--income]="type() === 'INCOME'"
+      (click)="setType('INCOME')"
+    >
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+           stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M22 7 13.5 15.5 8.5 10.5 2 17" />
+        <path d="M16 7h6v6" />
+      </svg>
+      Ingreso
+    </button>
+  </div>
+
+  <div class="form__field">
+    <label for="amount">Monto</label>
+    <input
+      id="amount"
+      type="text"
+      inputmode="decimal"
+      moneyInput
+      formControlName="amount"
+      placeholder="0.00"
+    />
+    @if (form.controls.amount.touched && form.controls.amount.invalid) {
+      <span class="form__error">Ingresa un monto mayor a 0.</span>
+    }
+  </div>
+
+  <div class="form__field">
+    <label for="category">Categoría</label>
+    <select id="category" formControlName="category">
+      <option value="" disabled>Selecciona una categoría</option>
+      @for (category of categories(); track category.id) {
+        <option [value]="category.id">
+          {{ category.name }}
+        </option>
+      }
+    </select>
+    @if (form.controls.category.touched && form.controls.category.invalid) {
+      <span class="form__error">Selecciona una categoría.</span>
+    }
+  </div>
+
+  <div class="form__field">
+    <label for="date">Fecha</label>
+    <input id="date" type="date" formControlName="date" />
+    @if (form.controls.date.touched && form.controls.date.invalid) {
+      <span class="form__error">Selecciona una fecha.</span>
+    }
+  </div>
+
+  <div class="form__field">
+    <label for="description">Descripción (opcional)</label>
+    <input
+      id="description"
+      type="text"
+      formControlName="description"
+      placeholder="Ej. Supermercado, salario, gasolina…"
+    />
+  </div>
+
+  <div class="form__actions">
+    <button type="button" class="btn btn--ghost" (click)="cancelled.emit()">
+      Cancelar
+    </button>
+    <button type="submit" class="btn btn--primary">
+      {{ transaction() ? 'Guardar cambios' : 'Agregar' }}
+    </button>
+  </div>
+</form>

@@ -1,0 +1,52 @@
+<section class="page">
+  <div class="page__header">
+    <div>
+      <h1>Transacciones</h1>
+      <p class="page__subtitle">
+        Gestiona tus gastos e ingresos
+        · Ingresos: <strong>{{ totals().income | currencyFormat }}</strong>
+        · Gastos: <strong>{{ totals().expense | currencyFormat }}</strong>
+      </p>
+    </div>
+    <button class="btn btn--primary" (click)="onOpenCreate()">
+      + Nueva transacción
+    </button>
+  </div>
+
+  <app-transaction-filter
+    [categories]="categories()"
+    (criteriaChange)="onCriteriaChange($event)"
+  />
+
+  <app-transaction-list
+    [transactions]="filteredTransactions()"
+    [categories]="categories()"
+    (edit)="onOpenEdit($event)"
+    (delete)="onAskDelete($event)"
+  />
+
+  <app-modal
+    [open]="formOpen()"
+    [title]="editingId() ? 'Editar transacción' : 'Nueva transacción'"
+    (close)="onCloseForm()"
+  >
+    @if (formOpen()) {
+      <app-transaction-form
+        [transaction]="editingTransaction()"
+        [categories]="categories()"
+        (submitted)="onSubmitted($event)"
+        (cancelled)="onCloseForm()"
+      />
+    }
+  </app-modal>
+
+  <app-confirm-dialog
+    [open]="pendingDelete() !== null"
+    title="Eliminar transacción"
+    [message]="'¿Seguro que quieres eliminar esta transacción? Esta acción no se puede deshacer.'"
+    confirmLabel="Eliminar"
+    cancelLabel="Cancelar"
+    (confirmed)="onDeleteConfirmed()"
+    (cancelled)="onDeleteCancelled()"
+  />
+</section>

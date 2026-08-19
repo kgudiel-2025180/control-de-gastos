@@ -1,0 +1,90 @@
+<div class="list">
+  @if (transactions().length === 0) {
+    <div class="list__empty">
+      <p>No hay transacciones con los filtros actuales.</p>
+      <p class="list__empty-hint">Agrega una con el botón «Nueva transacción».</p>
+    </div>
+  } @else {
+    <table class="list__table">
+      <thead>
+        <tr>
+          <th>Fecha</th>
+          <th>Descripción</th>
+          <th>Categoría</th>
+          <th>Tipo</th>
+          <th class="list__col-amount">Monto</th>
+          <th class="list__col-actions"></th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (transaction of transactions(); track transaction.id) {
+          <tr>
+            <td>
+              <div class="list__date">{{ transaction.date | date: 'dd MMM yyyy' }}</div>
+              <div class="list__ago">{{ transaction.date | dateAgo }}</div>
+            </td>
+            <td class="list__description">
+              {{ transaction.description || '—' }}
+            </td>
+            <td>
+              <span class="badge">
+                @if (categoryOf(transaction); as category) {
+                  <svg class="badge__icon" viewBox="0 0 24 24" fill="none"
+                       stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                       stroke-linejoin="round" aria-hidden="true">
+                    @for (d of iconPaths(category.icon); track d) {
+                      <path [attr.d]="d" />
+                    }
+                  </svg>
+                }
+                {{ categoryOf(transaction)?.name ?? 'Sin categoría' }}
+              </span>
+            </td>
+            <td>
+              <span
+                class="type-badge"
+                [class.type-badge--expense]="transaction.type === 'EXPENSE'"
+                [class.type-badge--income]="transaction.type === 'INCOME'"
+              >
+                {{ typeLabels[transaction.type] }}
+              </span>
+            </td>
+            <td
+              class="list__amount"
+              [class.list__amount--expense]="transaction.type === 'EXPENSE'"
+              [class.list__amount--income]="transaction.type === 'INCOME'"
+            >
+              {{ transaction.type === 'EXPENSE' ? '-' : '+' }}{{ transaction.amount | currencyFormat }}
+            </td>
+            <td class="list__actions">
+              <button
+                class="icon-btn"
+                title="Editar"
+                (click)="edit.emit(transaction)"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z" />
+                </svg>
+              </button>
+              <button
+                class="icon-btn icon-btn--danger"
+                title="Eliminar"
+                (click)="delete.emit(transaction)"
+              >
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+                     stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M3 6h18" />
+                  <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6" />
+                  <path d="M8 6V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2" />
+                  <path d="M10 11v6" />
+                  <path d="M14 11v6" />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+</div>

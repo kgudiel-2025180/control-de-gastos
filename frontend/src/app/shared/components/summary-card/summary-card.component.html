@@ -1,0 +1,14 @@
+<div class="summary-card" [style.--card-color]="color()">
+  <span class="summary-card__icon">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"
+         stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      @for (d of iconPaths(icon()); track d) {
+        <path [attr.d]="d" />
+      }
+    </svg>
+  </span>
+  <div>
+    <p class="summary-card__title">{{ title() }}</p>
+    <p class="summary-card__value">{{ value() | currencyFormat }}</p>
+  </div>
+</div>

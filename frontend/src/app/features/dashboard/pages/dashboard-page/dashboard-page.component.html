@@ -1,0 +1,44 @@
+<section class="dashboard">
+  <div class="dashboard__header">
+    <h1>Dashboard</h1>
+    <p class="dashboard__subtitle">Resumen de tu situación financiera</p>
+  </div>
+
+  <div class="dashboard__summary">
+    <app-summary-card
+      title="Balance"
+      [value]="balance()"
+      icon="wallet"
+      [color]="balanceColor()"
+    />
+    <app-summary-card
+      title="Ingresos"
+      [value]="income()"
+      icon="trending-up"
+      color="#34d399"
+    />
+    <app-summary-card
+      title="Gastos"
+      [value]="expense()"
+      icon="trending-down"
+      color="#f87171"
+    />
+  </div>
+
+  <div class="dashboard__grid">
+    <div class="card">
+      <h2 class="card__title">Gastos por categoría</h2>
+      <app-expense-chart
+        [transactions]="transactions()"
+        [categories]="categories()"
+      />
+    </div>
+    <div class="card">
+      <h2 class="card__title">Actividad reciente</h2>
+      <app-recent-activity
+        [transactions]="transactions()"
+        [categories]="categories()"
+      />
+    </div>
+  </div>
+</section>
