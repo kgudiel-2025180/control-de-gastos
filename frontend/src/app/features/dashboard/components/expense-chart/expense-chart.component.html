@@ -1,0 +1,41 @@
+@if (slices().length === 0) {
+  <div class="chart__empty">
+    <p>Sin gastos registrados todavía.</p>
+  </div>
+} @else {
+  <div class="chart">
+    <div
+      class="chart__donut"
+      [style.background]="'conic-gradient(' + donutGradient() + ')'"
+    >
+      <div class="chart__donut-hole">
+        <span class="chart__total">{{ totalExpenses() | currencyFormat }}</span>
+        <span class="chart__label">gastos</span>
+      </div>
+    </div>
+    <ul class="chart__legend">
+      @for (slice of slices(); track slice.category?.id ?? slice.category?.name) {
+        <li class="legend-item">
+          <span
+            class="legend-item__dot"
+            [style.background]="slice.category?.color ?? '#94a3b8'"
+          ></span>
+          <span class="legend-item__name">
+            @if (slice.category) {
+              <svg class="legend-item__icon" viewBox="0 0 24 24" fill="none"
+                   stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                   stroke-linejoin="round" aria-hidden="true">
+                @for (d of iconPaths(slice.category.icon); track d) {
+                  <path [attr.d]="d" />
+                }
+              </svg>
+            }
+            {{ slice.category?.name ?? 'Sin categoría' }}
+          </span>
+          <span class="legend-item__amount">{{ slice.amount | currencyFormat }}</span>
+          <span class="legend-item__percent">{{ slice.percent }}%</span>
+        </li>
+      }
+    </ul>
+  </div>
+}

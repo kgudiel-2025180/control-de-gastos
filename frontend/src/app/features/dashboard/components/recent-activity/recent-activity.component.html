@@ -1,0 +1,44 @@
+<ul class="activity">
+  @for (transaction of recent(); track transaction.id) {
+    <li class="activity__item">
+      <span
+        class="activity__icon"
+        [class.activity__icon--expense]="transaction.type === 'EXPENSE'"
+        [class.activity__icon--income]="transaction.type === 'INCOME'"
+      >
+        {{ transaction.type === 'EXPENSE' ? '↓' : '↑' }}
+      </span>
+      <div class="activity__info">
+        <p class="activity__title">
+          {{ transaction.description || categoryOf(transaction)?.name || 'Sin categoría' }}
+        </p>
+        <p class="activity__meta">
+          @if (categoryOf(transaction); as category) {
+            <svg class="activity__icon-svg" viewBox="0 0 24 24" fill="none"
+                 stroke="currentColor" stroke-width="1.8" stroke-linecap="round"
+                 stroke-linejoin="round" aria-hidden="true">
+              @for (d of iconPaths(category.icon); track d) {
+                <path [attr.d]="d" />
+              }
+            </svg>
+            {{ category.name }}
+          } @else {
+            —
+          }
+          · {{ transaction.date | dateAgo }}
+        </p>
+      </div>
+      <span
+        class="activity__amount"
+        [class.activity__amount--expense]="transaction.type === 'EXPENSE'"
+        [class.activity__amount--income]="transaction.type === 'INCOME'"
+      >
+        {{ transaction.type === 'EXPENSE' ? '-' : '+' }}{{ transaction.amount | currencyFormat }}
+      </span>
+    </li>
+  } @empty {
+    <li class="activity__empty">
+      <p>Sin movimientos todavía.</p>
+    </li>
+  }
+</ul>
